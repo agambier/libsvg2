@@ -8,11 +8,24 @@
 	This program is distributed WITHOUT ANY WARRANTY.
 	
 	FIXME: Finish this header...
+	FIXME: Use doxygen to generate API documenation.
  */
 
 #ifndef __svg_h__
 #define __svg_h__
 
+#include "deftypes.h"
 
+typedef struct _svgDrawing
+{
+	char *szVersion;
+	char *szId;
+	double dWidth;
+	double dHeight;
+} svgDrawing ;
+typedef svgDrawing* svgDrawingP;
+
+svgDrawingP svgParseFile( const char *szFile );
+void svgFreeDrawing( svgDrawingP tDrawing );
 
 #endif	//	__svg_h__
