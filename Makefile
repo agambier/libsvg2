@@ -29,9 +29,9 @@ LDFLAGS:=-L$(BINDIR) -lxml2
 
 # Adds flags to CFLAGS
 ifdef NDEBUG
-CFLAGS:=$(CFLAGS) -Wall -Wextra -Wconversion -Wsign-conversion -Winline -O3 -DNDEBUG
+CFLAGS:=$(CFLAGS) -Wall -Wextra -Wconversion -O3 -DNDEBUG
 else
-CFLAGS:=$(CFLAGS) -Wall -Wextra -Wconversion -Wsign-conversion -Winline -O0 -g -rdynamic
+CFLAGS:=$(CFLAGS) -Wall -Wextra -Wconversion -O0 -g -rdynamic
 LDFLAGS:=$(LDFLAGS) -export-dynamic
 endif
 

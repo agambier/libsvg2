@@ -1,6 +1,8 @@
 #ifndef __deftypes_h__
 #define __deftypes_h__
 
+#define SVG_UNUSED( a )		(void)(a);
+
 #if defined( __GNUC__ )
 #include <inttypes.h>
 typedef int8_t int8;
