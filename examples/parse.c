@@ -3,8 +3,14 @@
 
 int main( int iargc, char **argv )
 {
-	SVG_UNUSED( iargc )
-	SVG_UNUSED( argv )
+	svgDrawing *ptSvg;
+
+	if( iargc<2 )
+		return -1;
+
+	ptSvg = svgParseFile( argv[ 1 ] );
+
+	svgFreeDrawing( ptSvg );
 
 	return 0;
 }

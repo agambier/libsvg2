@@ -10,7 +10,7 @@ CC=gcc
 CROSS_COMPILE:=
 
 # Define directories and source files
-LIBXML2_DIR:=$(CURDIR)/sources
+LIBSVG2_DIR:=$(CURDIR)/sources
 EXAMPLES_DIR:=$(CURDIR)/examples
 BINDIR:=$(CURDIR)/bin
 OBJDIR:=$(CURDIR)/objs
@@ -18,7 +18,7 @@ INCDIR_BASE:=$(CURDIR)/include
 INCDIR:=${shell find $(INCDIR_BASE) -type d  -print | grep -v .svn }
 DOCSDIR:=$(CURDIR)/docs
 AUTODIRS:=$(BINDIR) $(OBJDIR) $(DOCSDIR)
-LIBXML2_AFILE:=$(BINDIR)/libxml2.a
+LIBSVG2_AFILE:=$(BINDIR)/libsvg2.a
 
 
 # include directories
@@ -37,22 +37,22 @@ endif
 
 export
 
-.PHONY: all help libxml2 examples docs clean mrproper directories directories_pre directories_post
+.PHONY: all help libsvg2 examples docs clean mrproper directories directories_pre directories_post
 
-all: directories libxml2 examples
+all: directories libsvg2 examples
 	
-libxml2: directories
-	@$(MAKE) -C $(LIBXML2_DIR)
+libsvg2: directories
+	@$(MAKE) -C $(LIBSVG2_DIR)
 
-examples: directories libxml2
+examples: directories libsvg2
 	@$(MAKE) -C $(EXAMPLES_DIR)
 
 clean:
-	@$(MAKE) -C $(LIBXML2_DIR) $@
+	@$(MAKE) -C $(LIBSVG2_DIR) $@
 	@$(MAKE) -C $(EXAMPLES_DIR) $@
 
 mrproper:
-	@$(MAKE) -C $(LIBXML2_DIR) $@
+	@$(MAKE) -C $(LIBSVG2_DIR) $@
 	@$(MAKE) -C $(EXAMPLES_DIR) $@
 	-@$(RM) $(BINDIR)
 	-@$(RM) $(OBJDIR)
@@ -71,7 +71,7 @@ $(AUTODIRS):
 	$(MKDIR) -p $@
 	
 docs:
-	@$(DOXY) ./libxml2.doxyfile
+	@$(DOXY) ./libsvg2.doxyfile
 	
 help:
 	@$(ECHO) "Rules"
@@ -80,7 +80,7 @@ help:
 	@$(ECHO) "clean     Delete objects files."
 	@$(ECHO) "docs      Build documentation."
 	@$(ECHO) "examples  Compile examples."
-	@$(ECHO) "libxml2   Compile libxml2 library."
+	@$(ECHO) "libsvg2   Compile libsvg2 library."
 	@$(ECHO) "help      Display this page."
 	@$(ECHO) "mrproper  Perform a clean and delete binary files as well."
 	@$(ECHO) ""

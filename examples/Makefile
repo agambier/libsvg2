@@ -11,7 +11,7 @@ OUTFILES:=$(patsubst %.c,%,$(CFILES))
 OUTFILES:=$(notdir $(OUTFILES))
 OUTFILES:=$(addprefix $(BINDIR)/,$(OUTFILES))
 CFLAGS:=$(CFLAGS)
-
+LDFLAGS:=$(LDFLAGS) -L$(BINDIR) -lsvg2
 # Define sub-directories
 VPATH:=$(dir $(CFILES)) $(INCDIR)
 
@@ -25,7 +25,7 @@ examples_pre:
 examples_post: $(OUTFILES)
 	@$(ECHO) "-- examples done --"
 
-$(BINDIR)/%: %.c $(LIBXML2_AFILE)
+$(BINDIR)/%: %.c $(LIBSVG2_AFILE)
 	@$(ECHO) -n $(PROMPT)"("$(notdir $<)" 1/2) "
 	$(CROSS_COMPILE)$(CC) $(CFLAGS) $(addprefix -I,$(INCDIR)) -c $< -o $(EXAMPLES_OBJDIR)/$(notdir $@).o
 	@$(ECHO) -n $(PROMPT)"("$(notdir $<)" 2/2) "
