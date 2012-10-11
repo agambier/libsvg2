@@ -247,9 +247,6 @@ svgDrawing* svgParseFile( const char *szFile )
     				ptXmlNode = ptXmlNode->xmlChildrenNode;
     				ptCurrentParent = ptNewItem;
     			}
-
-    			SVG_DEBUG_PRINTF( "Adding item %s - itemP(%p) Parent(%p) LastBrother(%p) LastBrother->Next(%p)\n", ptNewItem->szId, ptNewItem, ptNewItem->ptParent, ptLastBrother, ( ptLastBrother!=NULL )  ? ptLastBrother->ptNextItem : 0 );
-
     		}
     	}
 
