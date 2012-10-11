@@ -14,6 +14,10 @@ void svgStringToLength( const char *szValue, svgLength *ptLength )
 	memset( ptLength, 0, sizeof( *ptLength ) );
 	sscanf( szValue, "%lf%s", &ptLength->dValue, szUnit );
 
+	ptLength->tUnit = SVG_LENGTH_UNIT_NONE;
+	if( szUnit[ 0 ]=='\0' )
+		return;
+
 	if( strcmp( szUnit, "em" )==0 )
 		ptLength->tUnit = SVG_LENGTH_UNIT_EM;
 	else if( strcmp( szUnit, "ex" )==0 )
@@ -30,7 +34,7 @@ void svgStringToLength( const char *szValue, svgLength *ptLength )
 		ptLength->tUnit = SVG_LENGTH_UNIT_PC;
 	else if( strcmp( szUnit, "%" )==0 )
 		ptLength->tUnit = SVG_LENGTH_UNIT_PERCENT;
-	else /* if( strcmp( szUnit, "px" )==0 ) */
+	else if( strcmp( szUnit, "px" )==0 )
 		ptLength->tUnit = SVG_LENGTH_UNIT_PX;
 }
 

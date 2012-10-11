@@ -1,6 +1,10 @@
 #ifndef __svg_types_h__
 #define __svg_types_h__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define SVG_UNUSED( a )		(void)(a);
 
 #if defined( __GNUC__ )
@@ -23,7 +27,8 @@ typedef uint64_t uint64;
 //	-- SVG length --
 //	(http://www.w3.org/TR/2011/REC-SVG11-20110816/types.html#Length)
 typedef enum _svgLengthUnit {
-	SVG_LENGTH_UNIT_PX = 0,
+	SVG_LENGTH_UNIT_NONE = 0,
+	SVG_LENGTH_UNIT_PX,
 	SVG_LENGTH_UNIT_EM,
 	SVG_LENGTH_UNIT_EX,
 	SVG_LENGTH_UNIT_IN,
@@ -46,5 +51,8 @@ void svgStringToLength( const char *szValue, svgLength *ptLength );
 typedef svgLength svgCoordinate;
 #define svgStringToCoordinate( _value_, _coordinate_ )	svgStringToLength( ( _value_ ), ( _coordinate_ ) )
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif	//	__svg_types_h__
