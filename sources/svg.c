@@ -98,7 +98,11 @@ svgDrawing* svgParseFile( const char *szFile )
 	xmlDocPtr ptXml = NULL;
     xmlNodePtr ptXmlRoot, ptXmlNode;
     char *szValue;
-    svgItem *ptNewItem, *ptLastItem, *ptLastParent, *ptLastBrother, *ptLastRootLevelItem;
+    svgItem *ptNewItem; /* New parsed item */
+    svgItem *ptLastItem; /* Last created item */
+    svgItem *ptCurrentParent; /* Current parent, NULL if root level */
+    svgItem *ptLastBrother; /* Last item that should be the brother of the new parsed item */
+    svgItem *ptLastRootLevelItem; /* Last item on the root level */
 
 	//	check parameters
 	if( szFile==NULL ) {
@@ -159,7 +163,7 @@ svgDrawing* svgParseFile( const char *szFile )
 		svgStringToLength( szValue, &ptDrawing->tHeight );
 
 	//	Parse SVG file
-    ptLastParent = NULL;
+    ptCurrentParent = NULL;
     ptLastItem = NULL;
     ptLastBrother = NULL;
     ptLastRootLevelItem = NULL;
@@ -212,24 +216,24 @@ svgDrawing* svgParseFile( const char *szFile )
     				ptDrawing->tItemList.ptItem = ptNewItem;
 
     			//	Add it to the parent
-    			if( ptLastParent!=NULL ) {
+    			if( ptCurrentParent!=NULL ) {
     				//	Link it to its brother "same level"
-    				ptLastBrother = ptLastParent->ptLastChild;
+    				ptLastBrother = ptCurrentParent->ptLastChild;
 
-    				if( ptLastParent->ptFirstChild==NULL )
-    					ptLastParent->ptFirstChild = ptNewItem;
+    				if( ptCurrentParent->ptFirstChild==NULL )
+    					ptCurrentParent->ptFirstChild = ptNewItem;
 
-					ptLastParent->ptLastChild = ptNewItem;
+					ptCurrentParent->ptLastChild = ptNewItem;
     			}
     			else {
     				ptLastBrother = ptLastRootLevelItem;
     				ptLastRootLevelItem = ptNewItem;
     			}
 
-				if( ptLastBrother!=NULL && ptLastBrother->ptParent==ptLastParent )
+				if( ptLastBrother!=NULL && ptLastBrother->ptParent==ptCurrentParent )
 					ptLastBrother->ptNextItem = ptNewItem;
 
-    			ptNewItem->ptParent = ptLastParent;
+    			ptNewItem->ptParent = ptCurrentParent;
 
     			//	Link current item with previous one
     			if( ptLastItem!=NULL )
@@ -241,7 +245,7 @@ svgDrawing* svgParseFile( const char *szFile )
     			//	We have to parse its children
     			if( ptXmlNode->xmlChildrenNode!=NULL ) {
     				ptXmlNode = ptXmlNode->xmlChildrenNode;
-    				ptLastParent = ptNewItem;
+    				ptCurrentParent = ptNewItem;
     			}
 
     			SVG_DEBUG_PRINTF( "Adding item %s - itemP(%p) Parent(%p) LastBrother(%p) LastBrother->Next(%p)\n", ptNewItem->szId, ptNewItem, ptNewItem->ptParent, ptLastBrother, ( ptLastBrother!=NULL )  ? ptLastBrother->ptNextItem : 0 );
@@ -259,8 +263,8 @@ svgDrawing* svgParseFile( const char *szFile )
     		else
     			ptXmlNode = NULL;
 
-    		if( ptLastParent!=NULL )
-    			ptLastParent = ptLastParent->ptParent;
+    		if( ptCurrentParent!=NULL )
+    			ptCurrentParent = ptCurrentParent->ptParent;
     	}
     }
 
