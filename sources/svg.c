@@ -53,6 +53,8 @@ svgItem* svgParseGroup( xmlNodePtr ptXmlNode )
 	if( ptItem==NULL )
 		return NULL;
 
+	ptItem->tKind = SVG_ITEM_KIND_GROUP;
+
 	return ptItem;
 }
 
@@ -71,6 +73,8 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 	if( ptItem==NULL )
 		return NULL;
 
+	ptItem->tKind = SVG_ITEM_KIND_PATH;
+
 	return ptItem;
 }
 
@@ -88,6 +92,61 @@ svgItem* svgParseRect( xmlNodePtr ptXmlNode )
 	ptItem = svgNewItem( ptXmlNode );
 	if( ptItem==NULL )
 		return NULL;
+
+	ptItem->tKind = SVG_ITEM_KIND_RECT;
+
+	//	x
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"x" ) )!=NULL )
+		svgStringToCoordinate( szValue, &ptItem->tProperties.tRect.tX );
+	//	y
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"y" ) )!=NULL )
+		svgStringToCoordinate( szValue, &ptItem->tProperties.tRect.tY );
+	//	width
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"width" ) )!=NULL )
+		svgStringToLength( szValue, &ptItem->tProperties.tRect.tWidth );
+	//	height
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"height" ) )!=NULL )
+		svgStringToLength( szValue, &ptItem->tProperties.tRect.tHeight );
+	//	rx
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"rx" ) )!=NULL )
+		svgStringToLength( szValue, &ptItem->tProperties.tRect.tRadiusX );
+	//	ry
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"ry" ) )!=NULL )
+		svgStringToLength( szValue, &ptItem->tProperties.tRect.tRadiusY );
+
+	return ptItem;
+}
+
+svgItem* svgParseLine( xmlNodePtr ptXmlNode )
+{
+	svgItem *ptItem = NULL;
+	char *szValue;
+
+	if( ptXmlNode==NULL )
+		return NULL;
+	if( strcmp( ( char* )ptXmlNode->name, SVG_ITEM_LINE_NAME )!=0 )
+		return NULL;
+
+	//	Read common values to all kind of item
+	ptItem = svgNewItem( ptXmlNode );
+	if( ptItem==NULL )
+		return NULL;
+
+	ptItem->tKind = SVG_ITEM_KIND_LINE;
+
+	//	x1
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"x1" ) )!=NULL )
+		svgStringToCoordinate( szValue, &ptItem->tProperties.tLine.tX1 );
+	//	Y1
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"y1" ) )!=NULL )
+		svgStringToCoordinate( szValue, &ptItem->tProperties.tLine.tY1 );
+	//	X2
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"x2" ) )!=NULL )
+		svgStringToCoordinate( szValue, &ptItem->tProperties.tLine.tX2 );
+	//	Y2
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"y2" ) )!=NULL )
+		svgStringToCoordinate( szValue, &ptItem->tProperties.tLine.tY2 );
+
 
 	return ptItem;
 }
@@ -195,7 +254,7 @@ svgDrawing* svgParseFile( const char *szFile )
     		}
     		else if( strcmp( ( char* )ptXmlNode->name, SVG_ITEM_LINE_NAME )==0 ) {
     			//	Line
-    			SVG_DEBUG_PRINTF( "SVG Item : %s not implemented yet!\n", ptXmlNode->name );
+    			ptNewItem = svgParseLine( ptXmlNode );
     		}
     		else if( strcmp( ( char* )ptXmlNode->name, SVG_ITEM_POLYLINE_NAME )==0 ) {
     			//	Polyline

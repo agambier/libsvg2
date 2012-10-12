@@ -51,6 +51,28 @@ void svgStringToLength( const char *szValue, svgLength *ptLength );
 typedef svgLength svgCoordinate;
 #define svgStringToCoordinate( _value_, _coordinate_ )	svgStringToLength( ( _value_ ), ( _coordinate_ ) )
 
+
+//	----- SVG Shapes -----
+
+//	-- Line --
+typedef struct _svgLine {
+	svgCoordinate tX1;
+	svgCoordinate tY1;
+	svgCoordinate tX2;
+	svgCoordinate tY2;
+} svgLine ;
+
+//	-- Rect --
+typedef struct _svgRect {
+	svgCoordinate tX;
+	svgCoordinate tY;
+	svgLength tWidth;
+	svgLength tHeight;
+	svgLength tRadiusX;
+	svgLength tRadiusY;
+} svgRect ;
+
+
 #ifdef __cplusplus
 }
 #endif

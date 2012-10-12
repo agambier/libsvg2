@@ -21,13 +21,30 @@
 extern "C" {
 #endif
 
+typedef enum _svgItemKind {
+	SVG_ITEM_KIND_GROUP = 0,
+	SVG_ITEM_KIND_PATH,
+	SVG_ITEM_KIND_RECT,
+	SVG_ITEM_KIND_CIRCLE,
+	SVG_ITEM_KIND_ELLIPSE,
+	SVG_ITEM_KIND_LINE,
+	SVG_ITEM_KIND_POLYLINE,
+	SVG_ITEM_KIND_POLYGON
+} svgItemKind ;
+
 typedef struct _svgItem {
+	svgItemKind tKind;
 	char *szId;
 	struct _svgItem *ptParent;				/* Parent item */
 	struct _svgItem *ptFirstChild;			/* Next child, usually when item is a group */
 	struct _svgItem *ptLastChild;			/* Last child, usually when item is a group */
 	struct _svgItem *ptNextItem;			/* Next item stored as a tree */
 	struct _svgItem *ptNextUnsortedItem;	/* Next item but not stored as a tree */
+
+	union {
+		svgLine tLine;	/* tKind==SVG_ITEM_KIND_LINE */
+		svgRect tRect;	/* tKind==SVG_ITEM_KIND_RECT */
+	} tProperties ;
 } svgItem ;
 
 typedef struct _svgItemList {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="744.09448"
+   height="1052.3622"
+   id="svg2825">
+  <defs
+     id="defs2827" />
+  <line
+     x1="100"
+     y1="300"
+     x2="300"
+     y2="100"
+     id="LineSample"
+     stroke-width="5"
+     style="stroke-width:5" />
+  <rect
+     width="164.20541"
+     height="98.918922"
+     ry="23.740541"
+     x="94.962166"
+     y="464.78378"
+     id="RectSample"
+     style="color:#000000;fill:#00ffff;fill-opacity:1;fill-rule:nonzero;stroke:#000080;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+</svg>
