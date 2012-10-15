@@ -52,7 +52,17 @@ typedef svgLength svgCoordinate;
 #define svgStringToCoordinate( _value_, _coordinate_ )	svgStringToLength( ( _value_ ), ( _coordinate_ ) )
 
 
-//	----- SVG Shapes -----
+//	----- SVG Objects -----
+
+//	-- Title --
+typedef struct _svgTitle {
+	char *szText;
+} svgTitle ;
+
+//	-- Description --
+typedef struct _svgDesc {
+	char *szText;
+} svgDesc ;
 
 //	-- Line --
 typedef struct _svgLine {

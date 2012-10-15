@@ -29,7 +29,9 @@ typedef enum _svgItemKind {
 	SVG_ITEM_KIND_ELLIPSE,
 	SVG_ITEM_KIND_LINE,
 	SVG_ITEM_KIND_POLYLINE,
-	SVG_ITEM_KIND_POLYGON
+	SVG_ITEM_KIND_POLYGON,
+	SVG_ITEM_KIND_TITLE,
+	SVG_ITEM_KIND_DESC,
 } svgItemKind ;
 
 typedef struct _svgItem {
@@ -42,9 +44,11 @@ typedef struct _svgItem {
 	struct _svgItem *ptNextUnsortedItem;	/* Next item but not stored as a tree */
 
 	union {
+		svgTitle tTitle;	/* tKind==SVG_ITEM_KIND_TITLE */
+		svgDesc tDesc;	/* tKind==SVG_ITEM_KIND_DESC */
 		svgLine tLine;	/* tKind==SVG_ITEM_KIND_LINE */
 		svgRect tRect;	/* tKind==SVG_ITEM_KIND_RECT */
-	} tProperties ;
+	} tObject ;
 } svgItem ;
 
 typedef struct _svgItemList {
