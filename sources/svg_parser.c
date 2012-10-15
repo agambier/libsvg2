@@ -211,18 +211,15 @@ svgItem* svgParseCircle( xmlNodePtr ptXmlNode )
 
 	ptItem->tKind = SVG_ITEM_KIND_LINE;
 
-	//	x1
-	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"x1" ) )!=NULL )
-		svgStringToCoordinate( szValue, &ptItem->tObject.tLine.tX1 );
-	//	Y1
-	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"y1" ) )!=NULL )
-		svgStringToCoordinate( szValue, &ptItem->tObject.tLine.tY1 );
-	//	X2
-	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"x2" ) )!=NULL )
-		svgStringToCoordinate( szValue, &ptItem->tObject.tLine.tX2 );
-	//	Y2
-	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"y2" ) )!=NULL )
-		svgStringToCoordinate( szValue, &ptItem->tObject.tLine.tY2 );
+	//	x
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"cx" ) )!=NULL )
+		svgStringToCoordinate( szValue, &ptItem->tObject.tCircle.tX );
+	//	Y
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"cy" ) )!=NULL )
+		svgStringToCoordinate( szValue, &ptItem->tObject.tCircle.tY );
+	//	radius
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"r" ) )!=NULL )
+		svgStringToLength( szValue, &ptItem->tObject.tCircle.tRadius );
 
 
 	return ptItem;
