@@ -84,7 +84,6 @@ svgItem* svgParseDesc( xmlNodePtr ptXmlNode )
 svgItem* svgParseGroup( xmlNodePtr ptXmlNode )
 {
 	svgItem *ptItem = NULL;
-	char *szValue;
 
 	if( ptXmlNode==NULL )
 		return NULL;
@@ -117,6 +116,12 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 		return NULL;
 
 	ptItem->tKind = SVG_ITEM_KIND_PATH;
+
+	//	d
+	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"d" ) )!=NULL ) {
+		SVG_DEBUG_PRINTF( "Path d = %s", szValue );
+	}
+
 
 	return ptItem;
 }
