@@ -45,9 +45,10 @@ typedef struct _svgItem {
 
 	union {
 		svgTitle tTitle;	/* tKind==SVG_ITEM_KIND_TITLE */
-		svgDesc tDesc;	/* tKind==SVG_ITEM_KIND_DESC */
-		svgLine tLine;	/* tKind==SVG_ITEM_KIND_LINE */
-		svgRect tRect;	/* tKind==SVG_ITEM_KIND_RECT */
+		svgDesc tDesc;		/* tKind==SVG_ITEM_KIND_DESC */
+		svgLine tLine;		/* tKind==SVG_ITEM_KIND_LINE */
+		svgRect tRect;		/* tKind==SVG_ITEM_KIND_RECT */
+		svgCircle tCircle;	/* tKind==SVG_ITEM_KIND_CIRCLE */
 	} tObject ;
 } svgItem ;
 

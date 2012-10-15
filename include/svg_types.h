@@ -55,16 +55,19 @@ typedef svgLength svgCoordinate;
 //	----- SVG Objects -----
 
 //	-- Title --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/struct.html#DescriptionAndTitleElements)
 typedef struct _svgTitle {
 	char *szText;
 } svgTitle ;
 
 //	-- Description --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/struct.html#DescriptionAndTitleElements)
 typedef struct _svgDesc {
 	char *szText;
 } svgDesc ;
 
 //	-- Line --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/shapes.html#LineElement)
 typedef struct _svgLine {
 	svgCoordinate tX1;
 	svgCoordinate tY1;
@@ -73,6 +76,7 @@ typedef struct _svgLine {
 } svgLine ;
 
 //	-- Rect --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/shapes.html#RectElement)
 typedef struct _svgRect {
 	svgCoordinate tX;
 	svgCoordinate tY;
@@ -82,6 +86,13 @@ typedef struct _svgRect {
 	svgLength tRadiusY;
 } svgRect ;
 
+//	-- Circle --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/shapes.html#CircleElement)
+typedef struct _svgCircle {
+	svgCoordinate tX;
+	svgCoordinate tY;
+	svgLength tRadius;
+} svgCircle ;
 
 #ifdef __cplusplus
 }
