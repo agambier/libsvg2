@@ -197,6 +197,7 @@ _exit:
 
 void svgFreeItem( svgItem *ptItem )
 {
+	svgPathCommand *ptPathCmd, *ptNextPathCmd;
 	if( ptItem==NULL )
 		return;
 
@@ -210,6 +211,12 @@ void svgFreeItem( svgItem *ptItem )
 		case SVG_ITEM_KIND_GROUP:
 			break;
 		case SVG_ITEM_KIND_PATH:
+			ptPathCmd = ptItem->tParameters.tPath.ptFirstCommand;
+			while( ptPathCmd!=NULL ) {
+				ptNextPathCmd = ptPathCmd->ptNextCommand;
+				free( ptPathCmd );
+				ptPathCmd = ptNextPathCmd;
+			}
 			break;
 		case SVG_ITEM_KIND_RECT:
 			break;
@@ -224,19 +231,21 @@ void svgFreeItem( svgItem *ptItem )
 		case SVG_ITEM_KIND_POLYGON:
 			break;
 		case SVG_ITEM_KIND_TITLE:
-			if( ptItem->tObject.tTitle.szText!=NULL )
-				free( ptItem->tObject.tTitle.szText );
+			if( ptItem->tParameters.tTitle.szText!=NULL )
+				free( ptItem->tParameters.tTitle.szText );
 			break;
 		case SVG_ITEM_KIND_DESC:
-			if( ptItem->tObject.tTitle.szText!=NULL )
-				free( ptItem->tObject.tDesc.szText );
+			if( ptItem->tParameters.tTitle.szText!=NULL )
+				free( ptItem->tParameters.tDesc.szText );
 			break;
 	}
+
+	free( ptItem );
 }
 
 void svgFreeDrawing( svgDrawing *ptDrawing )
 {
-	svgItem *ptItem;
+	svgItem *ptItem, *ptNextItem;
 	if( ptDrawing==NULL )
 		return;
 
@@ -248,10 +257,13 @@ void svgFreeDrawing( svgDrawing *ptDrawing )
 
 	//	Free items...We use the unsorted list to make it simpler
 	ptItem = ptDrawing->tItemList.ptItem;
-	while( ptItem!=NULL )
-	{
+	while( ptItem!=NULL ){
+		//	since we'll free the current item we must store the location to the next one
+		ptNextItem = ptItem->ptNextUnsortedItem;
 		svgFreeItem( ptItem );
-		ptItem = ptItem->ptNextUnsortedItem;
+
+		//	Next
+		ptItem = ptNextItem;
 	}
 
 	free( ptDrawing );

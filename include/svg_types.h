@@ -94,6 +94,51 @@ typedef struct _svgCircle {
 	svgLength tRadius;
 } svgCircle ;
 
+//	-- Path Command --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathData)
+typedef enum _svgPathCommandId {
+	SVG_PATH_CMD_ID_MOVETO_ABS = 0,
+	SVG_PATH_CMD_ID_MOVETO_REL,
+	SVG_PATH_CMD_ID_LINETO_ABS,
+	SVG_PATH_CMD_ID_LINETO_REL,
+	SVG_PATH_CMD_ID_VERTICAL_LINETO_ABS,
+	SVG_PATH_CMD_ID_VERTICAL_LINETO_REL,
+	SVG_PATH_CMD_ID_HORIZONTAL_LINETO_ABS,
+	SVG_PATH_CMD_ID_HORIZONTAL_LINETO_REL,
+	SVG_PATH_CMD_ID_CLOSEPATH,
+} svgPathCommandId ;
+
+//	-- Path : MoveTo --
+typedef struct _svgPathCommand_MoveTo {
+	svgCoordinate tX;
+	svgCoordinate tY;
+} svgPathCommand_MoveTo ;
+
+//	-- Path : LineTo --
+typedef struct _svgPathCommand_Lineto {
+	svgCoordinate tX;	/* Unused if SVG_PATH_CMD_ID_VERTICAL_LINETO_xxx */
+	svgCoordinate tY;	/* Unused if SVG_PATH_CMD_ID_HORIZONTAL_LINETO_xxx */
+} svgPathCommand_Lineto ;
+
+//	-- Path Command --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathData)
+typedef struct _svgPathCommand {
+	svgPathCommandId tId;
+
+	union {
+			svgPathCommand_MoveTo tMoveTo;	/* tId==SVG_PATH_CMD_ID_MOVETO_xxx */
+			svgPathCommand_Lineto tLineTo;	/* tId==SVG_PATH_CMD_ID_LINETO_xxx */
+	} tParameters ;
+
+	struct _svgPathCommand *ptNextCommand;
+} svgPathCommand ;
+
+//	-- Path --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathElement)
+typedef struct _svgPath {
+	svgPathCommand *ptFirstCommand;
+} svgPath;
+
 #ifdef __cplusplus
 }
 #endif

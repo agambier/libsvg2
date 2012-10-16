@@ -28,7 +28,7 @@ svgItem* svgParseGroup( xmlNodePtr ptXmlNode );
 svgItem* svgParsePath( xmlNodePtr ptXmlNode );
 svgItem* svgParseRect( xmlNodePtr ptXmlNode );
 svgItem* svgParseLine( xmlNodePtr ptXmlNode );
-svgItem* svgParseLine( xmlNodePtr ptXmlNode );
+svgItem* svgParseCircle( xmlNodePtr ptXmlNode );
 
 #ifdef __cplusplus
 }

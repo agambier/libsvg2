@@ -49,7 +49,8 @@ typedef struct _svgItem {
 		svgLine tLine;		/* tKind==SVG_ITEM_KIND_LINE */
 		svgRect tRect;		/* tKind==SVG_ITEM_KIND_RECT */
 		svgCircle tCircle;	/* tKind==SVG_ITEM_KIND_CIRCLE */
-	} tObject ;
+		svgPath tPath;		/* tKind==SVG_ITEM_KIND_PATH */
+	} tParameters ;
 } svgItem ;
 
 typedef struct _svgItemList {
