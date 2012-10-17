@@ -15,6 +15,7 @@ const svgPathCommandFormat g_atPathCommandFormat[] = {
 	{ 'h', 1, SVG_PATH_CMD_ID_HORIZONTAL_LINETO_REL },
 	{ 'Z', 0, SVG_PATH_CMD_ID_CLOSEPATH },
 	{ 'z', 0, SVG_PATH_CMD_ID_CLOSEPATH },
+	{ '\0', 0, 0 },
 };
 
 
