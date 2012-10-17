@@ -106,7 +106,17 @@ typedef enum _svgPathCommandId {
 	SVG_PATH_CMD_ID_HORIZONTAL_LINETO_ABS,
 	SVG_PATH_CMD_ID_HORIZONTAL_LINETO_REL,
 	SVG_PATH_CMD_ID_CLOSEPATH,
+	SVG_PATH_CMD_ID_END_OF_ENUM
 } svgPathCommandId ;
+
+//	-- Commands format --
+typedef struct _svgPathCommandFormat {
+	char cCommand;
+	int8 i8NbrOfArgs;
+	svgPathCommandId tId;
+} svgPathCommandFormat ;
+
+extern const svgPathCommandFormat g_atPathCommandFormat[];
 
 //	-- Path : MoveTo --
 typedef struct _svgPathCommand_MoveTo {

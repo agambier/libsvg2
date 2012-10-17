@@ -36,6 +36,21 @@ svgPathCommand* svgNewPathCommand( svgPathCommandId tId )
 {
 	svgPathCommand *ptCmd = NULL;
 
+#if !defined( NDEBUG )
+	char t[ SVG_PATH_CMD_ID_CLOSEPATH + 1 ][ 128 ] = {
+		"SVG_PATH_CMD_ID_MOVETO_ABS",
+		"SVG_PATH_CMD_ID_MOVETO_REL",
+		"SVG_PATH_CMD_ID_LINETO_ABS",
+		"SVG_PATH_CMD_ID_LINETO_REL",
+		"SVG_PATH_CMD_ID_VERTICAL_LINETO_ABS",
+		"SVG_PATH_CMD_ID_VERTICAL_LINETO_REL",
+		"SVG_PATH_CMD_ID_HORIZONTAL_LINETO_ABS",
+		"SVG_PATH_CMD_ID_HORIZONTAL_LINETO_REL",
+		"SVG_PATH_CMD_ID_CLOSEPATH"
+	};
+	SVG_DEBUG_PRINTF( "Adding Path COmmand %s\n", t[ tId ] );
+#endif
+
 	ptCmd = ( svgPathCommand* )malloc( sizeof( *ptCmd ) );
 	if( ptCmd==NULL )
 	{
@@ -124,7 +139,6 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 	char *szValue, szField[ 16 ];
 	const char *szFieldStart;
 	svgPathCommand *ptPathCmd, *ptLastPathCmd = NULL;
-	char cAddCmd;
 
 	if( ptXmlNode==NULL )
 		return NULL;
@@ -142,60 +156,146 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"d" ) )!=NULL ) {
 
 		SVG_DEBUG_PRINTF( "Path d = %s\n", szValue );
-		cAddCmd = 0;
 		ptLastPathCmd = NULL;
 		szFieldStart = svgGetNextPathField( szValue, szField );
 		while( szFieldStart!=NULL ) {
 
 			ptPathCmd = NULL;
+
 			//	What's this command ?
-			if( strcmp( szField, "M" ) == 0 ) {
-				//	MoveTo ABS
-				ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_MOVETO_ABS );
+			if( svgIsRealNumber( szField )!= 0) {
 
-				//	X Value
-				szFieldStart += strlen( szField );
-				if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
-					if( svgIsRealNumber( szField )!= 0)
-						svgStringToCoordinate( szField, &ptPathCmd->tParameters.tMoveTo.tX );
-				}
-				//	Y Value
-				szFieldStart += strlen( szField );
-				if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
-					if( svgIsRealNumber( szField )!= 0)
-						svgStringToCoordinate( szField, &ptPathCmd->tParameters.tMoveTo.tY );
-				}
-			}
-			else if( strcmp( szField, "m" ) == 0 ) {
-				//	MoveTo REL
-				ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_MOVETO_REL );
+				//	No command so use last command
+				if( ptLastPathCmd!=NULL ) {
 
-				//	X Value
-				szFieldStart += strlen( szField );
-				if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
-					if( svgIsRealNumber( szField )!= 0)
-						svgStringToCoordinate( szField, &ptPathCmd->tParameters.tMoveTo.tX );
+					switch( ptLastPathCmd->tId ) {
+						//	MoveTo => LineTo
+						case SVG_PATH_CMD_ID_MOVETO_ABS:
+						case SVG_PATH_CMD_ID_MOVETO_REL:
+							ptPathCmd = svgNewPathCommand( ( ptLastPathCmd->tId==SVG_PATH_CMD_ID_MOVETO_REL ) ? SVG_PATH_CMD_ID_LINETO_REL : SVG_PATH_CMD_ID_LINETO_ABS );
+							break;
+						//	Repeated command
+						default:
+							ptPathCmd = svgNewPathCommand( ptLastPathCmd->tId );
+							break;
+					}
+					//	Since we already read the parameter of the command we don't want to skip when we'll parse the command's parameters.
+					szField[ 0 ] = 0;
 				}
-				//	Y Value
-				szFieldStart += strlen( szField );
-				if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
-					if( svgIsRealNumber( szField )!= 0)
-						svgStringToCoordinate( szField, &ptPathCmd->tParameters.tMoveTo.tY );
-				}
-			}
-			else if( strcasecmp( szField, "z" ) == 0 ) {
-				//	Close path
-				ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_CLOSEPATH );
-			}
-			else if( svgIsRealNumber( szField )!= 0) {
-				SVG_DEBUG_PRINTF( "Number = %s\n", szField );
 			}
 			else {
-				SVG_DEBUG_PRINTF( "Not yet supported = %s\n", szField );
+				switch( szField[ 0 ] ) {
+					//	MoveTo ABS
+					case 'M':
+						ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_MOVETO_ABS );
+						break;
+					//	MoveTo REL
+					case 'm':
+						ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_MOVETO_REL );
+						break;
+					//	LineTo ABS:
+					case 'L':
+						ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_LINETO_ABS );
+						break;
+					//	LineTo REL:
+					case 'l':
+						ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_LINETO_REL );
+						break;
+					//	Horizontal LineTo ABS:
+					case 'H':
+						ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_HORIZONTAL_LINETO_ABS );
+						break;
+					//	Horizontal LineTo REL:
+					case 'h':
+						ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_HORIZONTAL_LINETO_REL );
+						break;
+					//	Vertical LineTo ABS:
+					case 'V':
+						ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_VERTICAL_LINETO_ABS );
+						break;
+					//	Vertical LineTo REL:
+					case 'v':
+						ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_VERTICAL_LINETO_REL );
+						break;
+					//	ClosePath
+					case 'z':
+						ptPathCmd = svgNewPathCommand( SVG_PATH_CMD_ID_CLOSEPATH );
+						break;
+					//	Not yet supported
+					default:
+						SVG_DEBUG_PRINTF( "Not yet supported = %s\n", szField );
+						break;
+				}
 			}
+
 
 			if( ptPathCmd!=NULL ) {
 
+				//	Parse the command parameters
+				switch( ptPathCmd->tId ) {
+					//	MoveTo
+					case SVG_PATH_CMD_ID_MOVETO_ABS:
+					case SVG_PATH_CMD_ID_MOVETO_REL:
+						//	X Value
+						szFieldStart += strlen( szField );
+						if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
+							if( svgIsRealNumber( szField )!= 0)
+								svgStringToCoordinate( szField, &ptPathCmd->tParameters.tMoveTo.tX );
+						}
+						//	Y Value
+						szFieldStart += strlen( szField );
+						if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
+							if( svgIsRealNumber( szField )!= 0)
+								svgStringToCoordinate( szField, &ptPathCmd->tParameters.tMoveTo.tY );
+						}
+						break;
+
+					//	LineTo
+					case SVG_PATH_CMD_ID_LINETO_ABS:
+					case SVG_PATH_CMD_ID_LINETO_REL:
+						//	X Value
+						szFieldStart += strlen( szField );
+						if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
+							if( svgIsRealNumber( szField )!= 0)
+								svgStringToCoordinate( szField, &ptPathCmd->tParameters.tLineTo.tX );
+						}
+						//	Y Value
+						szFieldStart += strlen( szField );
+						if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
+							if( svgIsRealNumber( szField )!= 0)
+								svgStringToCoordinate( szField, &ptPathCmd->tParameters.tLineTo.tY );
+						}
+						break;
+
+					//	Vertical LineTo
+					case SVG_PATH_CMD_ID_VERTICAL_LINETO_ABS:
+					case SVG_PATH_CMD_ID_VERTICAL_LINETO_REL:
+						//	Y Value
+						szFieldStart += strlen( szField );
+						if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
+							if( svgIsRealNumber( szField )!= 0)
+								svgStringToCoordinate( szField, &ptPathCmd->tParameters.tLineTo.tY );
+						}
+						break;
+
+					//	Horizontal LineTo
+					case SVG_PATH_CMD_ID_HORIZONTAL_LINETO_ABS:
+					case SVG_PATH_CMD_ID_HORIZONTAL_LINETO_REL:
+						//	X Value
+						szFieldStart += strlen( szField );
+						if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
+							if( svgIsRealNumber( szField )!= 0)
+								svgStringToCoordinate( szField, &ptPathCmd->tParameters.tLineTo.tX );
+						}
+						break;
+
+					//	No parameters
+					case SVG_PATH_CMD_ID_CLOSEPATH:
+					default:
+						break;
+				}
+
+				//	Store the new command into the command list
 				if( ptItem->tParameters.tPath.ptFirstCommand==NULL )
 					ptItem->tParameters.tPath.ptFirstCommand = ptPathCmd;
 
