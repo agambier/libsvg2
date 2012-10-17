@@ -110,7 +110,8 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 
 			if( ptPathCmd!=NULL ) {
 				//	Parse args
-				for( iI = 0; iI < g_atPathCommandFormat[ uiCmdIdx ].i8NbrOfArgs; iI ++ ) {
+				for( iI = 0; ( iI < g_atPathCommandFormat[ uiCmdIdx ].i8NbrOfArgs ) && ( iI < ( int8 )SVG_ARRAY_SIZE( atArgs ) ); iI ++ ) {
+					atArgs[ iI ].dValue = 0;
 					szFieldStart += strlen( szField );
 					if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
 						if( svgIsRealNumber( szField )!= 0)
