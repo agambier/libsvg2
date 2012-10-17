@@ -11,7 +11,7 @@ int main( int iargc, char **argv )
 		return -1;
 
 	//	Open the SVG file
-	ptSvg = svgParseFile( argv[ 1 ] );
+	ptSvg = svgOpenFile( argv[ 1 ] );
 	if( ptSvg==NULL ) {
 		printf( "ERROR(%d): %s.\n", svgGetLastError(), svgGetLastErrorDescription() );
 		return -1;

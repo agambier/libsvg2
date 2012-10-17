@@ -10,9 +10,13 @@ svgError svgSetLastError( svgError tError, const char *szDesc, ... )
 {
 	va_list tVaList;
 
-	va_start( tVaList, szDesc );
-	vsprintf( g_szLastErrorDesc, szDesc, tVaList );
-	va_end( tVaList );
+	if( szDesc!=NULL ) {
+		va_start( tVaList, szDesc );
+		vsprintf( g_szLastErrorDesc, szDesc, tVaList );
+		va_end( tVaList );
+	}
+	else
+		g_szLastErrorDesc[ 0 ] = '\0';
 
 	g_tLastError = tError;
 	return tError;

@@ -68,7 +68,7 @@ typedef struct _svgDrawing {
 	svgItemList tItemList;
 } svgDrawing ;
 
-svgDrawing* svgParseFile( const char *szFile );
+svgDrawing* svgOpenFile( const char *szFile );
 void svgFreeDrawing( svgDrawing *ptDrawing );
 
 #ifdef __cplusplus
