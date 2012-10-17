@@ -5,7 +5,9 @@
 extern "C" {
 #endif
 
-#define SVG_UNUSED( a )		(void)(a);
+#define SVG_UNUSED( a )			(void)(a);
+
+#define SVG_ARRAY_SIZE( a )		( sizeof( ( a ) ) / sizeof( ( a )[ 0 ] ) )
 
 #if defined( __GNUC__ )
 #include <inttypes.h>
