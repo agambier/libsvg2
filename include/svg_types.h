@@ -111,6 +111,10 @@ typedef enum _svgPathCommandId {
 	SVG_PATH_CMD_ID_CUBIC_CURVETO_REL,
 	SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_ABS,
 	SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_REL,
+	SVG_PATH_CMD_ID_QUADRATIC_CURVETO_ABS,
+	SVG_PATH_CMD_ID_QUADRATIC_CURVETO_REL,
+	SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_ABS,
+	SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_REL,
 	SVG_PATH_CMD_ID_CLOSEPATH,
 	SVG_PATH_CMD_ID_END_OF_ENUM
 } svgPathCommandId ;
@@ -156,6 +160,24 @@ typedef struct _svgPathCommand_SmoothCubicCurveTo {
 	svgCoordinate tY2;
 } svgPathCommand_SmoothCubicCurveTo ;
 
+//	-- Path : QuadraticCurveTo --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathDataQuadraticBezierCommands)
+typedef struct _svgPathCommand_QuadraticCurveTo {
+	svgCoordinate tX;
+	svgCoordinate tY;
+	svgCoordinate tX1;
+	svgCoordinate tY1;
+} svgPathCommand_QuadraticCurveTo ;
+
+//	-- Path : SmoothQuadraticCurveTo --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathDataQuadraticBezierCommands)
+typedef struct _svgPathCommand_SmoothQuadraticCurveTo {
+	svgCoordinate tX;
+	svgCoordinate tY;
+	svgCoordinate tX1;
+	svgCoordinate tY1;
+} svgPathCommand_SmoothQuadraticCurveTo ;
+
 //	-- Path Command --
 //	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathData)
 typedef struct _svgPathCommand {
@@ -166,6 +188,8 @@ typedef struct _svgPathCommand {
 			svgPathCommand_Lineto tLineTo;	/* tId==SVG_PATH_CMD_ID_LINETO_xxx */
 			svgPathCommand_CubicCurveTo tCubicCurveTo;	/* tId==SVG_PATH_CMD_ID_CUBIC_CURVETO_xxx */
 			svgPathCommand_SmoothCubicCurveTo tSmoothCubicCurveTo;	/* tId==SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_xxx */
+			svgPathCommand_QuadraticCurveTo tQuadraticCurveTo;	/* tId==SVG_PATH_CMD_ID_QUADRATIC_CURVETO_xxx */
+			svgPathCommand_SmoothQuadraticCurveTo tSmoothQuadraticCurveTo;	/* tId==SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_xxx */
 	} tParameters ;
 
 	struct _svgPathCommand *ptNextCommand;

@@ -23,6 +23,10 @@ svgPathCommand* svgNewPathCommand( svgPathCommandId tId )
 		"SVG_PATH_CMD_ID_CUBIC_CURVETO_REL",
 		"SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_ABS",
 		"SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_REL",
+		"SVG_PATH_CMD_ID_QUADRATIC_CURVETO_ABS",
+		"SVG_PATH_CMD_ID_QUADRATIC_CURVETO_REL",
+		"SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_ABS",
+		"SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_REL",
 		"SVG_PATH_CMD_ID_CLOSEPATH"
 	};
 	SVG_DEBUG_PRINTF( "Adding Path COmmand %s\n", t[ tId ] );
@@ -169,6 +173,22 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 						ptPathCmd->tParameters.tSmoothCubicCurveTo.tY2 = atArgs[ 1 ];
 						ptPathCmd->tParameters.tSmoothCubicCurveTo.tX = atArgs[ 2 ];
 						ptPathCmd->tParameters.tSmoothCubicCurveTo.tY = atArgs[ 3 ];
+						break;
+
+					//	Quadratic CurveTo
+					case SVG_PATH_CMD_ID_QUADRATIC_CURVETO_ABS:
+					case SVG_PATH_CMD_ID_QUADRATIC_CURVETO_REL:
+						ptPathCmd->tParameters.tQuadraticCurveTo.tX1 = atArgs[ 0 ];
+						ptPathCmd->tParameters.tQuadraticCurveTo.tY1 = atArgs[ 1 ];
+						ptPathCmd->tParameters.tQuadraticCurveTo.tX = atArgs[ 2 ];
+						ptPathCmd->tParameters.tQuadraticCurveTo.tY = atArgs[ 3 ];
+						break;
+
+					//	Quadratic Cubic CurveTo
+					case SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_ABS:
+					case SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_REL:
+						ptPathCmd->tParameters.tSmoothQuadraticCurveTo.tX = atArgs[ 0 ];
+						ptPathCmd->tParameters.tSmoothQuadraticCurveTo.tY = atArgs[ 1 ];
 						break;
 
 					//	No parameters
