@@ -61,12 +61,12 @@ svgDrawing* svgOpenFile( const char *szFile )
 	if( ( szValue = ( char* )xmlGetProp( ptXmlRoot, ( xmlChar* )"y" ) )!=NULL )
 		svgStringToCoordinate( szValue, &ptDrawing->tY );
 	//	SVG's Width
-	ptDrawing->tWidth.dValue = 100;
+	ptDrawing->tWidth.fValue = 100;
 	ptDrawing->tWidth.tUnit = SVG_LENGTH_UNIT_PERCENT;
 	if( ( szValue = ( char* )xmlGetProp( ptXmlRoot, ( xmlChar* )"width" ) )!=NULL )
 		svgStringToLength( szValue, &ptDrawing->tWidth );
 	//	SVG's Height
-	ptDrawing->tHeight.dValue = 100;
+	ptDrawing->tHeight.fValue = 100;
 	ptDrawing->tHeight.tUnit = SVG_LENGTH_UNIT_PERCENT;
 	if( ( szValue = ( char* )xmlGetProp( ptXmlRoot, ( xmlChar* )"height" ) )!=NULL )
 		svgStringToLength( szValue, &ptDrawing->tHeight );

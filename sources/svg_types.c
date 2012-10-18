@@ -13,6 +13,10 @@ const svgPathCommandFormat g_atPathCommandFormat[] = {
 	{ 'v', 1, SVG_PATH_CMD_ID_VERTICAL_LINETO_REL },
 	{ 'H', 1, SVG_PATH_CMD_ID_HORIZONTAL_LINETO_ABS },
 	{ 'h', 1, SVG_PATH_CMD_ID_HORIZONTAL_LINETO_REL },
+	{ 'C', 6, SVG_PATH_CMD_ID_CUBIC_CURVETO_ABS },
+	{ 'c', 6, SVG_PATH_CMD_ID_CUBIC_CURVETO_REL },
+	{ 'S', 4, SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_ABS },
+	{ 's', 4, SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_REL },
 	{ 'Z', 0, SVG_PATH_CMD_ID_CLOSEPATH },
 	{ 'z', 0, SVG_PATH_CMD_ID_CLOSEPATH },
 	{ '\0', 0, 0 },
@@ -27,9 +31,9 @@ void svgStringToLength( const char *szValue, svgLength *ptLength )
 		return;
 
 	memset( ptLength, 0, sizeof( *ptLength ) );
-	sscanf( szValue, "%lf%s", &ptLength->dValue, szUnit );
+	sscanf( szValue, "%f%s", &ptLength->fValue, szUnit );
 
-	SVG_DEBUG_PRINTF( "Value %#.4f\n", ptLength->dValue );
+	SVG_DEBUG_PRINTF( "Value %#.4f\n", ptLength->fValue );
 
 	ptLength->tUnit = SVG_LENGTH_UNIT_NONE;
 	if( szUnit[ 0 ]=='\0' )

@@ -9,4 +9,8 @@
         fill="none" stroke="blue" />
   <path id="path1" d="M 100 100 300 100 200 300 H 100 V 400 H 50 L 75 150 z"
         fill="red" stroke="blue" stroke-width="3" />
+  <path id="path2" d="M 100,200 C 100,100 250,100 250,200 S
+  400,300 400,200 "
+        fill="none" stroke="black" stroke-width="3" />
+       
 </svg>

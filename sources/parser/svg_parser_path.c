@@ -19,6 +19,10 @@ svgPathCommand* svgNewPathCommand( svgPathCommandId tId )
 		"SVG_PATH_CMD_ID_VERTICAL_LINETO_REL",
 		"SVG_PATH_CMD_ID_HORIZONTAL_LINETO_ABS",
 		"SVG_PATH_CMD_ID_HORIZONTAL_LINETO_REL",
+		"SVG_PATH_CMD_ID_CUBIC_CURVETO_ABS",
+		"SVG_PATH_CMD_ID_CUBIC_CURVETO_REL",
+		"SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_ABS",
+		"SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_REL",
 		"SVG_PATH_CMD_ID_CLOSEPATH"
 	};
 	SVG_DEBUG_PRINTF( "Adding Path COmmand %s\n", t[ tId ] );
@@ -111,7 +115,7 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 			if( ptPathCmd!=NULL ) {
 				//	Parse args
 				for( iI = 0; ( iI < g_atPathCommandFormat[ uiCmdIdx ].i8NbrOfArgs ) && ( iI < ( int8 )SVG_ARRAY_SIZE( atArgs ) ); iI ++ ) {
-					atArgs[ iI ].dValue = 0;
+					atArgs[ iI ].fValue = 0;
 					szFieldStart += strlen( szField );
 					if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
 						if( svgIsRealNumber( szField )!= 0)
@@ -145,6 +149,26 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 					case SVG_PATH_CMD_ID_HORIZONTAL_LINETO_ABS:
 					case SVG_PATH_CMD_ID_HORIZONTAL_LINETO_REL:
 						ptPathCmd->tParameters.tLineTo.tX = atArgs[ 0 ];
+						break;
+
+					//	Cubic CurveTo
+					case SVG_PATH_CMD_ID_CUBIC_CURVETO_ABS:
+					case SVG_PATH_CMD_ID_CUBIC_CURVETO_REL:
+						ptPathCmd->tParameters.tCubicCurveTo.tX1 = atArgs[ 0 ];
+						ptPathCmd->tParameters.tCubicCurveTo.tY1 = atArgs[ 1 ];
+						ptPathCmd->tParameters.tCubicCurveTo.tX2 = atArgs[ 2 ];
+						ptPathCmd->tParameters.tCubicCurveTo.tY2 = atArgs[ 3 ];
+						ptPathCmd->tParameters.tCubicCurveTo.tX = atArgs[ 4 ];
+						ptPathCmd->tParameters.tCubicCurveTo.tY = atArgs[ 5 ];
+						break;
+
+					//	Smooth Cubic CurveTo
+					case SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_ABS:
+					case SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_REL:
+						ptPathCmd->tParameters.tSmoothCubicCurveTo.tX2 = atArgs[ 0 ];
+						ptPathCmd->tParameters.tSmoothCubicCurveTo.tY2 = atArgs[ 1 ];
+						ptPathCmd->tParameters.tSmoothCubicCurveTo.tX = atArgs[ 2 ];
+						ptPathCmd->tParameters.tSmoothCubicCurveTo.tY = atArgs[ 3 ];
 						break;
 
 					//	No parameters

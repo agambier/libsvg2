@@ -43,7 +43,7 @@ typedef enum _svgLengthUnit {
 
 typedef struct _svgLength {
 	svgLengthUnit tUnit;
-	double dValue;
+	float fValue;
 } svgLength ;
 
 void svgStringToLength( const char *szValue, svgLength *ptLength );
@@ -107,6 +107,10 @@ typedef enum _svgPathCommandId {
 	SVG_PATH_CMD_ID_VERTICAL_LINETO_REL,
 	SVG_PATH_CMD_ID_HORIZONTAL_LINETO_ABS,
 	SVG_PATH_CMD_ID_HORIZONTAL_LINETO_REL,
+	SVG_PATH_CMD_ID_CUBIC_CURVETO_ABS,
+	SVG_PATH_CMD_ID_CUBIC_CURVETO_REL,
+	SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_ABS,
+	SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_REL,
 	SVG_PATH_CMD_ID_CLOSEPATH,
 	SVG_PATH_CMD_ID_END_OF_ENUM
 } svgPathCommandId ;
@@ -132,6 +136,26 @@ typedef struct _svgPathCommand_Lineto {
 	svgCoordinate tY;	/* Unused if SVG_PATH_CMD_ID_HORIZONTAL_LINETO_xxx */
 } svgPathCommand_Lineto ;
 
+//	-- Path : CubicCurveTo --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathDataCubicBezierCommands)
+typedef struct _svgPathCommand_CubicCurveTo {
+	svgCoordinate tX;
+	svgCoordinate tY;
+	svgCoordinate tX1;
+	svgCoordinate tY1;
+	svgCoordinate tX2;
+	svgCoordinate tY2;
+} svgPathCommand_CubicCurveTo ;
+
+//	-- Path : SmoothCubicCurveTo --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathDataCubicBezierCommands)
+typedef struct _svgPathCommand_SmoothCubicCurveTo {
+	svgCoordinate tX;
+	svgCoordinate tY;
+	svgCoordinate tX2;
+	svgCoordinate tY2;
+} svgPathCommand_SmoothCubicCurveTo ;
+
 //	-- Path Command --
 //	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathData)
 typedef struct _svgPathCommand {
@@ -140,6 +164,8 @@ typedef struct _svgPathCommand {
 	union {
 			svgPathCommand_MoveTo tMoveTo;	/* tId==SVG_PATH_CMD_ID_MOVETO_xxx */
 			svgPathCommand_Lineto tLineTo;	/* tId==SVG_PATH_CMD_ID_LINETO_xxx */
+			svgPathCommand_CubicCurveTo tCubicCurveTo;	/* tId==SVG_PATH_CMD_ID_CUBIC_CURVETO_xxx */
+			svgPathCommand_SmoothCubicCurveTo tSmoothCubicCurveTo;	/* tId==SVG_PATH_CMD_ID_SMOOTH_CUBIC_CURVETO_xxx */
 	} tParameters ;
 
 	struct _svgPathCommand *ptNextCommand;
