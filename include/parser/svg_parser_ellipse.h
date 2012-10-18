@@ -11,6 +11,7 @@ extern "C"
 
 #define SVG_TAG_ELLIPSE		"ellipse"
 
+svgItem* svgParseEllipse( xmlNodePtr ptXmlNode );
 
 #ifdef __cplusplus
 }

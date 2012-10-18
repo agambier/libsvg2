@@ -84,7 +84,7 @@ svgError svgParseFile( xmlNodePtr ptXmlRoot, svgDrawing *ptDrawing )
     		}
     		else if( strcmp( ( char* )ptXmlNode->name, SVG_TAG_ELLIPSE )==0 ) {
     			//	Ellipse
-    			SVG_DEBUG_PRINTF( "SVG Item : %s not implemented yet!\n", ptXmlNode->name );
+    			ptNewItem = svgParseEllipse( ptXmlNode );
     		}
     		else if( strcmp( ( char* )ptXmlNode->name, SVG_TAG_LINE )==0 ) {
     			//	Line
