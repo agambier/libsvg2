@@ -181,7 +181,7 @@ typedef struct _svgPathCommand_SmoothQuadraticCurveTo {
 } svgPathCommand_SmoothQuadraticCurveTo ;
 
 //	-- Path : Arc --
-//	()
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathDataEllipticalArcCommands)
 typedef struct _svgPathCommand_ArcTo {
 	svgCoordinate tX;
 	svgCoordinate tY;
