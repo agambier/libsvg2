@@ -10,7 +10,7 @@ svgPathCommand* svgNewPathCommand( svgPathCommandId tId )
 	svgPathCommand *ptCmd = NULL;
 
 #if !defined( NDEBUG )
-	char t[ SVG_PATH_CMD_ID_CLOSEPATH + 1 ][ 128 ] = {
+	char t[ SVG_PATH_CMD_ID_END_OF_ENUM ][ 64 ] = {
 		"SVG_PATH_CMD_ID_MOVETO_ABS",
 		"SVG_PATH_CMD_ID_MOVETO_REL",
 		"SVG_PATH_CMD_ID_LINETO_ABS",
@@ -27,6 +27,8 @@ svgPathCommand* svgNewPathCommand( svgPathCommandId tId )
 		"SVG_PATH_CMD_ID_QUADRATIC_CURVETO_REL",
 		"SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_ABS",
 		"SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_REL",
+		"SVG_PATH_CMD_ID_ARCTO_ABS",
+		"SVG_PATH_CMD_ID_ARCTO_REL",
 		"SVG_PATH_CMD_ID_CLOSEPATH"
 	};
 	SVG_DEBUG_PRINTF( "Adding Path COmmand %s\n", t[ tId ] );
@@ -189,6 +191,18 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 					case SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_REL:
 						ptPathCmd->tParameters.tSmoothQuadraticCurveTo.tX = atArgs[ 0 ];
 						ptPathCmd->tParameters.tSmoothQuadraticCurveTo.tY = atArgs[ 1 ];
+						break;
+
+					//	ArcTo
+					case SVG_PATH_CMD_ID_ARCTO_ABS:
+					case SVG_PATH_CMD_ID_ARCTO_REL:
+						ptPathCmd->tParameters.tArcTo.tRadiusX = atArgs[ 0 ];
+						ptPathCmd->tParameters.tArcTo.tRadiusY = atArgs[ 1 ];
+						ptPathCmd->tParameters.tArcTo.tXAxisAngle = atArgs[ 2 ];
+						ptPathCmd->tParameters.tArcTo.tLargeArcFlag = atArgs[ 3 ];
+						ptPathCmd->tParameters.tArcTo.tSweepFlag = atArgs[ 4 ];
+						ptPathCmd->tParameters.tArcTo.tX = atArgs[ 5 ];
+						ptPathCmd->tParameters.tArcTo.tY = atArgs[ 6 ];
 						break;
 
 					//	No parameters

@@ -21,6 +21,8 @@ const svgPathCommandFormat g_atPathCommandFormat[] = {
 	{ 'q', 4, SVG_PATH_CMD_ID_QUADRATIC_CURVETO_REL },
 	{ 'T', 2, SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_ABS },
 	{ 't', 2, SVG_PATH_CMD_ID_SMOOTH_QUADRATIC_CURVETO_REL },
+	{ 'A', 7, SVG_PATH_CMD_ID_ARCTO_ABS },
+	{ 'a', 7, SVG_PATH_CMD_ID_ARCTO_REL },
 	{ 'Z', 0, SVG_PATH_CMD_ID_CLOSEPATH },
 	{ 'z', 0, SVG_PATH_CMD_ID_CLOSEPATH },
 	{ '\0', 0, 0 },
