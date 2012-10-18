@@ -11,6 +11,7 @@ extern "C"
 
 #define SVG_TAG_POLYLINE	"polyline"
 
+svgItem* svgParsePolyline( xmlNodePtr ptXmlNode );
 
 #ifdef __cplusplus
 }

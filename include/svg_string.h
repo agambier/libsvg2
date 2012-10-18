@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 const char* svgGetNextPathField( const char *szData, char *szField );
+const char* svgGetNextPointField( const char *szData, char *szField );
 char svgIsRealNumber( const char *szString );
 
 #ifdef __cplusplus

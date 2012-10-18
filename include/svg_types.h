@@ -53,6 +53,12 @@ void svgStringToLength( const char *szValue, svgLength *ptLength );
 typedef svgLength svgCoordinate;
 #define svgStringToCoordinate( _value_, _coordinate_ )	svgStringToLength( ( _value_ ), ( _coordinate_ ) )
 
+//	-- Basic point --
+typedef struct _svgPoint {
+	svgCoordinate tX;
+	svgCoordinate tY;
+	struct _svgPoint *ptNextPoint;
+} svgPoint ;
 
 //	----- SVG Objects -----
 
@@ -97,13 +103,19 @@ typedef struct _svgCircle {
 } svgCircle ;
 
 //	-- Ellipse --
-//	()
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/shapes.html#EllipseElement)
 typedef struct _svgEllipse {
 	svgCoordinate tX;
 	svgCoordinate tY;
 	svgLength tRadiusX;
 	svgLength tRadiusY;
 } svgEllipse ;
+
+//	-- Polyline --
+//	(http://www.w3.org/TR/2011/REC-SVG11-20110816/shapes.html#PolylineElement)
+typedef struct _svgPolyline {
+	svgPoint tFirstPoint;
+} svgPolyline ;
 
 //	-- Path Command --
 //	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathData)

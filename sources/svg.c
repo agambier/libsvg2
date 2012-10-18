@@ -86,6 +86,7 @@ _exit:
 void svgFreeItem( svgItem *ptItem )
 {
 	svgPathCommand *ptPathCmd, *ptNextPathCmd;
+	svgPoint *ptPoint, *ptNextPoint;
 	if( ptItem==NULL )
 		return;
 
@@ -115,6 +116,12 @@ void svgFreeItem( svgItem *ptItem )
 		case SVG_ITEM_KIND_LINE:
 			break;
 		case SVG_ITEM_KIND_POLYLINE:
+			ptPoint = ptItem->tParameters.tPolyline.tFirstPoint.ptNextPoint;
+			while( ptPoint!=NULL ) {
+				ptNextPoint = ptPoint->ptNextPoint;
+				free( ptPoint );
+				ptPoint = ptNextPoint;
+			}
 			break;
 		case SVG_ITEM_KIND_POLYGON:
 			break;

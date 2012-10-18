@@ -14,6 +14,38 @@ const char* svgGetNextPathField( const char *szData, char *szField )
 
 	szField[ 0 ] = '\0';
 
+	//	FIXME: Make sure that this "M100,100L200,500" will be parsed...
+
+	//	Search for the start of the field
+	szStart = szData;
+	while( *szStart!='\0' && ( *szStart=='\t' || *szStart=='\r' || *szStart=='\n' || *szStart==' ' || *szStart==',' ) ) {
+		szStart ++;
+	}
+
+	if( *szStart=='\0' )
+		return NULL;
+
+	//	Search for the end
+	szEnd = szStart + 1;
+	while( *szEnd!='\0' && *szEnd!='\t' && *szEnd!='\r' && *szEnd!='\n' && *szEnd!=' ' && *szEnd!=',' ) {
+		szEnd ++;
+	}
+
+	strncpy( szField, szStart, ( size_t )( szEnd - szStart ) );
+	szField[ szEnd - szStart ] = 0;
+
+	return szStart;
+}
+
+const char* svgGetNextPointField( const char *szData, char *szField )
+{
+	const char *szStart = NULL, *szEnd = NULL;
+
+	if( szData==NULL || szField==NULL )
+		return NULL;
+
+	szField[ 0 ] = '\0';
+
 	//	Search for the start of the field
 	szStart = szData;
 	while( *szStart!='\0' && ( *szStart=='\t' || *szStart=='\r' || *szStart=='\n' || *szStart==' ' || *szStart==',' ) ) {

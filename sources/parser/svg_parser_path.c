@@ -71,8 +71,6 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 
 	//	d
 	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"d" ) )!=NULL ) {
-
-		SVG_DEBUG_PRINTF( "Path d = %s\n", szValue );
 		ptLastPathCmd = NULL;
 		szFieldStart = svgGetNextPathField( szValue, szField );
 		while( szFieldStart!=NULL ) {

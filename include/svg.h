@@ -44,13 +44,14 @@ typedef struct _svgItem {
 	struct _svgItem *ptNextUnsortedItem;	/* Next item but not stored as a tree */
 
 	union {
-		svgTitle tTitle;	/* tKind==SVG_ITEM_KIND_TITLE */
-		svgDesc tDesc;		/* tKind==SVG_ITEM_KIND_DESC */
-		svgLine tLine;		/* tKind==SVG_ITEM_KIND_LINE */
-		svgRect tRect;		/* tKind==SVG_ITEM_KIND_RECT */
-		svgCircle tCircle;	/* tKind==SVG_ITEM_KIND_CIRCLE */
-		svgPath tPath;		/* tKind==SVG_ITEM_KIND_PATH */
-		svgEllipse tEllipse;/* tKind==SVG_ITEM_KIND_ELLIPSE */
+		svgTitle tTitle;		/* tKind==SVG_ITEM_KIND_TITLE */
+		svgDesc tDesc;			/* tKind==SVG_ITEM_KIND_DESC */
+		svgLine tLine;			/* tKind==SVG_ITEM_KIND_LINE */
+		svgRect tRect;			/* tKind==SVG_ITEM_KIND_RECT */
+		svgCircle tCircle;		/* tKind==SVG_ITEM_KIND_CIRCLE */
+		svgPath tPath;			/* tKind==SVG_ITEM_KIND_PATH */
+		svgEllipse tEllipse;	/* tKind==SVG_ITEM_KIND_ELLIPSE */
+		svgPolyline tPolyline;	/* tKind==SVG_ITEM_KIND_POLYLINE */
 	} tParameters ;
 } svgItem ;
 

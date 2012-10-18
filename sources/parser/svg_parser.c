@@ -80,7 +80,7 @@ svgError svgParseFile( xmlNodePtr ptXmlRoot, svgDrawing *ptDrawing )
     		}
     		else if( strcmp( ( char* )ptXmlNode->name, SVG_TAG_CIRCLE )==0 ) {
     			//	Circle
-    			SVG_DEBUG_PRINTF( "SVG Item : %s not implemented yet!\n", ptXmlNode->name );
+    			ptNewItem = svgParseCircle( ptXmlNode );
     		}
     		else if( strcmp( ( char* )ptXmlNode->name, SVG_TAG_ELLIPSE )==0 ) {
     			//	Ellipse
@@ -92,7 +92,7 @@ svgError svgParseFile( xmlNodePtr ptXmlRoot, svgDrawing *ptDrawing )
     		}
     		else if( strcmp( ( char* )ptXmlNode->name, SVG_TAG_POLYLINE )==0 ) {
     			//	Polyline
-    			SVG_DEBUG_PRINTF( "SVG Item : %s not implemented yet!\n", ptXmlNode->name );
+    			ptNewItem = svgParsePolyline( ptXmlNode );
     		}
     		else if( strcmp( ( char* )ptXmlNode->name, SVG_TAG_POLYGON )==0 ) {
     			//	Polygon

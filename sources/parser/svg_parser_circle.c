@@ -20,7 +20,7 @@ svgItem* svgParseCircle( xmlNodePtr ptXmlNode )
 	if( ptItem==NULL )
 		return NULL;
 
-	ptItem->tKind = SVG_ITEM_KIND_LINE;
+	ptItem->tKind = SVG_ITEM_KIND_CIRCLE;
 
 	//	x
 	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"cx" ) )!=NULL )
