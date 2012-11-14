@@ -72,7 +72,7 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 	//	d
 	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"d" ) )!=NULL ) {
 		ptLastPathCmd = NULL;
-		szFieldStart = svgGetNextPathField( szValue, szField );
+		szFieldStart = svgGetNextPathField( szValue, szField, 16 );
 		while( szFieldStart!=NULL ) {
 
 			ptPathCmd = NULL;
@@ -121,7 +121,7 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 				for( iI = 0; ( iI < g_atPathCommandFormat[ uiCmdIdx ].i8NbrOfArgs ) && ( iI < ( int8 )SVG_ARRAY_SIZE( atArgs ) ); iI ++ ) {
 					atArgs[ iI ].fValue = 0;
 					szFieldStart += strlen( szField );
-					if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField ) )!=NULL ) {
+					if( ( szFieldStart = svgGetNextPathField( szFieldStart, szField, 16 ) )!=NULL ) {
 						if( svgIsRealNumber( szField )!= 0)
 							svgStringToCoordinate( szField, &atArgs[ iI ] );
 					}
@@ -221,7 +221,7 @@ svgItem* svgParsePath( xmlNodePtr ptXmlNode )
 
 			//	Next
 			szFieldStart += strlen( szField );
-			szFieldStart = svgGetNextPathField( szFieldStart, szField );
+			szFieldStart = svgGetNextPathField( szFieldStart, szField, 16 );
 		}
 	}
 

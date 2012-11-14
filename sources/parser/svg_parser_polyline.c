@@ -27,7 +27,7 @@ svgItem* svgParsePolyline( xmlNodePtr ptXmlNode )
 	//	Points
 	if( ( szValue = ( char* )xmlGetProp( ptXmlNode, ( xmlChar* )"points" ) )!=NULL ) {
 
-		szFieldStart = svgGetNextPointField( szValue, szField );
+		szFieldStart = svgGetNextPointField( szValue, szField, 16 );
 
 		while( szFieldStart!=NULL ) {
 			//	First point ?
@@ -42,7 +42,7 @@ svgItem* svgParsePolyline( xmlNodePtr ptXmlNode )
 
 			//	Y
 			szFieldStart += strlen( szField );
-			szFieldStart = svgGetNextPointField( szFieldStart, szField );
+			szFieldStart = svgGetNextPointField( szFieldStart, szField, 16 );
 			svgStringToCoordinate( szField, &ptNewPoint->tY );
 
 			//	Link with last point
@@ -52,7 +52,7 @@ svgItem* svgParsePolyline( xmlNodePtr ptXmlNode )
 
 			//	Next X
 			szFieldStart += strlen( szField );
-			szFieldStart = svgGetNextPointField( szFieldStart, szField );
+			szFieldStart = svgGetNextPointField( szFieldStart, szField, 16 );
 		}
 	}
 
