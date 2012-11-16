@@ -52,6 +52,7 @@ typedef struct _svgItem {
 		svgPath tPath;			/* tKind==SVG_ITEM_KIND_PATH */
 		svgEllipse tEllipse;	/* tKind==SVG_ITEM_KIND_ELLIPSE */
 		svgPolyline tPolyline;	/* tKind==SVG_ITEM_KIND_POLYLINE */
+		svgPolygon tPolygon;	/* tKind==SVG_ITEM_KIND_POLYGON */
 	} tParameters ;
 } svgItem ;
 

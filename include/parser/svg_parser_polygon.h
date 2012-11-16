@@ -10,6 +10,8 @@ extern "C"
 #endif
 
 #define SVG_TAG_POLYGON		"polygon"
+	
+svgItem* svgParsePolygon( xmlNodePtr ptXmlNode );
 
 #ifdef __cplusplus
 }

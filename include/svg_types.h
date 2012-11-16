@@ -117,6 +117,12 @@ typedef struct _svgPolyline {
 	svgPoint tFirstPoint;
 } svgPolyline ;
 
+//	-- Polygon --
+//	http://www.w3.org/TR/2011/REC-SVG11-20110816/shapes.html#PolygonElement
+typedef struct _svgPolygon {
+	svgPoint tFirstPoint;
+} svgPolygon ;
+
 //	-- Path Command --
 //	(http://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathData)
 typedef enum _svgPathCommandId {
