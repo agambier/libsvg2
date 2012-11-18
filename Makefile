@@ -22,17 +22,16 @@ LIBSVG2_AFILE:=$(BINDIR)/libsvg2.a
 
 
 # include directories
-CFLAGS:=$(CFLAGS) -I$(INCDIR) -I/usr/include/libxml2 
+CFLAGS:=$(CFLAGS) -I$(INCDIR) $(shell xml2-config --cflags) 
 
 # Linker options
-LDFLAGS:=-L$(BINDIR) -lxml2
+LDFLAGS:=-L$(BINDIR) $(shell xml2-config --libs) 
 
 # Adds flags to CFLAGS
 ifdef NDEBUG
 CFLAGS:=$(CFLAGS) -Wall -Wextra -Wconversion -O3 -DNDEBUG
 else
 CFLAGS:=$(CFLAGS) -Wall -Wextra -Wconversion -O0 -g -rdynamic
-LDFLAGS:=$(LDFLAGS) -export-dynamic
 endif
 
 export
@@ -40,7 +39,7 @@ export
 .PHONY: all help libsvg2 examples docs clean mrproper directories directories_pre directories_post
 
 all: directories libsvg2 examples
-	
+
 libsvg2: directories
 	@$(MAKE) -C $(LIBSVG2_DIR)
 
@@ -65,14 +64,14 @@ directories_pre:
 
 directories_post:
 	@$(ECHO) -- directories done --
-	
+
 $(AUTODIRS):
 	@$(ECHO) -n $(PROMPT)
 	$(MKDIR) -p $@
-	
+
 docs:
 	@$(DOXY) ./libsvg2.doxyfile
-	
+
 help:
 	@$(ECHO) "Rules"
 	@$(ECHO) "-----"
