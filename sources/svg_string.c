@@ -37,7 +37,7 @@ const char* svgGetNextPathField( const char *szData, char *szField, int n )
 	}
 
 	//	Search for the end
-	szEnd = szStart + 1;
+	szEnd = szStart;
 	if (szEnd != szEOF && ( *szEnd=='-' || *szEnd =='+' ) )
 		szEnd ++;
 	szEnd = svgSkipDigits( szEnd, szEOF );
@@ -65,15 +65,19 @@ const char* svgGetNextPointField( const char *szData, char *szField, int n )
 	
 	//	Search for the start of the field
 	szStart = szData;
-	while( *szStart!='\0' && isspace( *szStart ) ) {
-		szStart ++;
-	}
-	
-	if( *szStart=='\0' )
+	szStart = svgSkipWS(szStart, szEOF);
+	if( szStart==szEOF || *szStart=='\0' )
 		return NULL;
 	
+	if ( *szStart==',' ) {
+		szStart ++;
+		szStart = svgSkipWS(szStart, szEOF);
+		if( szStart==szEOF || *szStart=='\0' )
+			return NULL;
+	}
+	
 	//	Search for the end
-	szEnd = szStart + 1;
+	szEnd = szStart;
 	if (szEnd != szEOF && ( *szEnd=='-' || *szEnd =='+' ) )
 		szEnd ++;
 	szEnd = svgSkipDigits( szEnd, szEOF );
@@ -81,6 +85,7 @@ const char* svgGetNextPointField( const char *szData, char *szField, int n )
 		szEnd ++;
 		szEnd = svgSkipDigits( szEnd, szEOF );
 	}
+	// TODO: handle exponent
 	
 	assert( szEnd - szStart < n );
 	strncpy( szField, szStart, ( size_t )( szEnd - szStart ) );
