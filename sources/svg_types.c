@@ -39,8 +39,6 @@ void svgStringToLength( const char *szValue, svgLength *ptLength )
 	memset( ptLength, 0, sizeof( *ptLength ) );
 	sscanf( szValue, "%f%s", &ptLength->fValue, szUnit );
 
-	SVG_DEBUG_PRINTF( "Value %#.4f\n", ptLength->fValue );
-
 	ptLength->tUnit = SVG_LENGTH_UNIT_NONE;
 	if( szUnit[ 0 ]=='\0' )
 		return;

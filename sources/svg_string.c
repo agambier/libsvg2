@@ -6,6 +6,7 @@
 #include "svg_string.h"
 #include "svg_types.h"
 
+const char* svgSkipWS( const char* szStart, const char *szEOF );
 const char* svgSkipDigits( const char* szStart, const char* szEOF );
 
 
@@ -20,12 +21,20 @@ const char* svgGetNextPathField( const char *szData, char *szField, int n )
 
 	//	Search for the start of the field
 	szStart = szData;
-	while( *szStart!='\0' && ( isspace( *szStart ) || *szStart==',' ) ) {
-		szStart ++;
-	}
-
-	if( *szStart=='\0' || (!svgIsCommand( *szStart ) && *szStart!=',') )
+	szStart = svgSkipWS(szStart, szEOF);
+	if( szStart==szEOF || *szStart=='\0' )
 		return NULL;
+	
+	if ( *szStart==',' ) {
+		szStart ++;
+		szStart = svgSkipWS(szStart, szEOF);
+		if( szStart==szEOF || *szStart=='\0' )
+			return NULL;
+	} else if ( svgIsCommand( *szStart ) ) {
+		szField[ 0 ] = *szStart;
+		szField[ 1 ] = 0;
+		return szStart;
+	}
 
 	//	Search for the end
 	szEnd = szStart + 1;
@@ -36,6 +45,7 @@ const char* svgGetNextPathField( const char *szData, char *szField, int n )
 		szEnd ++;
 		szEnd = svgSkipDigits( szEnd, szEOF );
 	}
+	// TODO: handle exponent
 	
 	assert( szEnd - szStart < n );
 	strncpy( szField, szStart, ( size_t )( szEnd - szStart ) );
@@ -55,7 +65,7 @@ const char* svgGetNextPointField( const char *szData, char *szField, int n )
 	
 	//	Search for the start of the field
 	szStart = szData;
-	while( *szStart!='\0' && ( isspace( *szStart ) || *szStart==',' ) ) {
+	while( *szStart!='\0' && isspace( *szStart ) ) {
 		szStart ++;
 	}
 	
@@ -108,6 +118,15 @@ char svgIsRealNumber( const char *szString )
 		return 1;
 
 	return 0;
+}
+
+const char* svgSkipWS( const char* szStart, const char *szEOF )
+{
+	const char* szEnd = szStart;
+	while( szEnd!=szEOF && *szEnd!='\0' && isspace( *szEnd ) ) {
+		szEnd ++;
+	}
+	return szEnd;
 }
 
 const char* svgSkipDigits( const char* szStart, const char* szEOF )
