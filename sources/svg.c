@@ -90,8 +90,6 @@ void svgFreeItem( svgItem *ptItem )
 	if( ptItem==NULL )
 		return;
 
-	SVG_DEBUG_PRINTF( "Freeing item %s\n", ptItem->szId );
-
 	if( ptItem->szId!=NULL )
 		free( ptItem->szId );
 
