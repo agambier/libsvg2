@@ -90,8 +90,6 @@ void svgFreeItem( svgItem *ptItem )
 	if( ptItem==NULL )
 		return;
 
-	SVG_DEBUG_PRINTF( "Freeing item %s\n", ptItem->szId );
-
 	if( ptItem->szId!=NULL )
 		free( ptItem->szId );
 
@@ -124,6 +122,12 @@ void svgFreeItem( svgItem *ptItem )
 			}
 			break;
 		case SVG_ITEM_KIND_POLYGON:
+			ptPoint = ptItem->tParameters.tPolygon.tFirstPoint.ptNextPoint;
+			while( ptPoint!=NULL ) {
+				ptNextPoint = ptPoint->ptNextPoint;
+				free( ptPoint );
+				ptPoint = ptNextPoint;
+			}
 			break;
 		case SVG_ITEM_KIND_TITLE:
 			if( ptItem->tParameters.tTitle.szText!=NULL )

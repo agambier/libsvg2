@@ -96,7 +96,7 @@ svgError svgParseFile( xmlNodePtr ptXmlRoot, svgDrawing *ptDrawing )
     		}
     		else if( strcmp( ( char* )ptXmlNode->name, SVG_TAG_POLYGON )==0 ) {
     			//	Polygon
-    			SVG_DEBUG_PRINTF( "SVG Item : %s not implemented yet!\n", ptXmlNode->name );
+				ptNewItem = svgParsePolygon( ptXmlNode );
     		}
     		else {
     			SVG_DEBUG_PRINTF( "Unknown or unsupported SVG item : %s\n", ptXmlNode->name );
